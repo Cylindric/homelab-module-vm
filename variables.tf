@@ -95,8 +95,8 @@ variable "cpu" {
 
 variable "balloon" {
   description = "Memory Balloon amount, must be <= Memory"
-  type    = number
-  default = 0
+  type        = number
+  default     = 0
 }
 
 variable "qemu_os" {

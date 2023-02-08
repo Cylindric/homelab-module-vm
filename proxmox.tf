@@ -1,6 +1,5 @@
 resource "proxmox_vm_qemu" "vm" {
-  name = var.name
-
+  name        = var.name
   bios        = var.bios
   balloon     = local.balloon
   onboot      = var.onboot
@@ -61,5 +60,34 @@ resource "null_resource" "set_static_ip" {
       "echo \"        addresses: [172.29.14.7, 172.29.14.8]\" | sudo tee -a /etc/netplan/00-installer-config.yaml",
       "echo \"sleep 5s && sudo netplan apply\" | at now"
     ]
+  }
+}
+
+resource "null_resource" "set_netbox_vm_status" {
+  provisioner "local-exec" {
+    on_failure = continue
+    command    = <<EOT
+      curl \
+        -s \
+        -X PATCH \
+        -H \"Authorization: Token $NETBOX_API_TOKEN \" \
+        -H \"Content-Type: application/json\" \
+        $NETBOX_SERVER_URL/api/virtualization/virtual-machines/${local.netbox_vm_id}/ \
+        --data '{"status": "active"}
+    EOT
+  }
+
+  provisioner "local-exec" {
+    on_failure = continue
+    when       = destroy
+    command    = <<EOT
+      curl \
+        -s \
+        -X PATCH \
+        -H \"Authorization: Token $NETBOX_API_TOKEN \" \
+        -H \"Content-Type: application/json\" \
+        $NETBOX_SERVER_URL/api/virtualization/virtual-machines/${local.netbox_vm_id}/ \
+        --data '{"status": "decomissioning"}
+    EOT
   }
 }
