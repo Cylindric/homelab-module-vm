@@ -6,7 +6,6 @@ resource "null_resource" "set_netbox_vm_status_staged" {
   provisioner "local-exec" {
     command    = <<EOT
       curl \
-        -s \
         -X PATCH \
         -H "Authorization: Token $NETBOX_API_TOKEN" \
         -H "Content-Type: application/json" \
@@ -96,7 +95,6 @@ resource "null_resource" "set_netbox_vm_status" {
   provisioner "local-exec" {
     command    = <<EOT
       curl \
-        -s \
         -X PATCH \
         -H "Authorization: Token $NETBOX_API_TOKEN" \
         -H "Content-Type: application/json" \
@@ -109,7 +107,6 @@ resource "null_resource" "set_netbox_vm_status" {
     when       = destroy
     command    = <<EOT
       curl \
-        -s \
         -X PATCH \
         -H "Authorization: Token $NETBOX_API_TOKEN" \
         -H "Content-Type: application/json" \
