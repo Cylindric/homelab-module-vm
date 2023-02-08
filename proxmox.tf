@@ -64,6 +64,14 @@ resource "null_resource" "set_static_ip" {
 }
 
 resource "null_resource" "set_netbox_vm_status" {
+  depends_on = [
+    proxmox_vm_qemu.vm
+  ]
+
+  triggers = {
+    vm_id = local.netbox_vm_id
+  }
+
   provisioner "local-exec" {
     on_failure = continue
     command    = <<EOT
@@ -72,7 +80,7 @@ resource "null_resource" "set_netbox_vm_status" {
         -X PATCH \
         -H \"Authorization: Token $NETBOX_API_TOKEN \" \
         -H \"Content-Type: application/json\" \
-        $NETBOX_SERVER_URL/api/virtualization/virtual-machines/${local.netbox_vm_id}/ \
+        $NETBOX_SERVER_URL/api/virtualization/virtual-machines/${self.vm_id}/ \
         --data '{"status": "active"}
     EOT
   }
@@ -86,7 +94,7 @@ resource "null_resource" "set_netbox_vm_status" {
         -X PATCH \
         -H \"Authorization: Token $NETBOX_API_TOKEN \" \
         -H \"Content-Type: application/json\" \
-        $NETBOX_SERVER_URL/api/virtualization/virtual-machines/${local.netbox_vm_id}/ \
+        $NETBOX_SERVER_URL/api/virtualization/virtual-machines/${self.vm_id}/ \
         --data '{"status": "decomissioning"}
     EOT
   }
