@@ -53,6 +53,12 @@ variable "netbox_cluster" {
 ###################
 # PROX VM SETTINGS
 ###################
+variable "template" {
+  description = "The name of the template to clone"
+  type        = string
+  default     = "ubuntu-20.04"
+}
+
 variable "memory" {
   description = "How much memory (Mb) to allocate to the VM"
   type        = number
