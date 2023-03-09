@@ -1,5 +1,9 @@
-resource "proxmox_vm_qemu" "vm" {
-  count = var.image_type == "clone" ? 1 : 0
+resource "proxmox_vm_qemu" "clone" {
+  moved {
+    from = proxmox_vm_qemu.vm
+    to   = proxmox_vm_qemu.clone
+  }
+  count = var.template_type == "clone" ? 1 : 0
   depends_on = [
     null_resource.set_netbox_vm_status_staged
   ]
@@ -43,7 +47,7 @@ resource "proxmox_vm_qemu" "vm" {
 }
 
 resource "null_resource" "set_static_ip" {
-  count = var.image_type == "clone" ? 1 : 0
+  count = var.template_type == "clone" ? 1 : 0
 
   connection {
     type     = "ssh"

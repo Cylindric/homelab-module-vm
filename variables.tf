@@ -61,7 +61,7 @@ variable "template" {
 
 variable "template_type" {
   description = "The type of template, i.e. cloudinit, clone"
-  default     = "cloudimg"
+  default     = "cloudinit"
   validation {
     condition     = contains(["cloudinit", "clone"], var.template_type)
     error_message = "Image Type must be a valid type (cloudinit or clone)."
