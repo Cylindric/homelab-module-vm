@@ -22,12 +22,13 @@ resource "proxmox_vm_qemu" "cloudinit" {
   scsihw      = var.scsihw
 
   # CloudInit
-  os_type      = "cloud-init"
-  ciuser       = "packer"
-  cipassword   = "packer"
-  ipconfig0    = "gw=172.29.14.1,ip=${local.ip_address2}"
-  nameserver   = "172.29.14.7,172.29.14.8"
-  searchdomain = var.dns_domain
+  os_type          = "cloud-init"
+  ciuser           = "packer"
+  cipassword       = "packer"
+  ipconfig0        = "ip=${local.ip_address2},gw=172.29.14.1"
+  nameserver       = "172.29.14.7"
+  searchdomain     = var.dns_domain
+  automatic_reboot = true
 
   disk {
     size    = "${var.disk_size}G"
