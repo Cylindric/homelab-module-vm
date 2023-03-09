@@ -18,7 +18,8 @@ resource "null_resource" "set_netbox_vm_status_staged" {
 
 resource "null_resource" "set_netbox_vm_status" {
   depends_on = [
-    proxmox_vm_qemu.vm
+    proxmox_vm_qemu.cloudinit,
+    proxmox_vm_qemu.clone
   ]
 
   triggers = {

@@ -1,3 +1,12 @@
+moved {
+  from = proxmox_vm_qemu.vm
+  to   = proxmox_vm_qemu.clone[0]
+}
+moved {
+  from = null_resource.set_static_ip
+  to   = null_resource.set_static_ip[0]
+}
+
 #################
 # NETBOX LOOKUPS
 #################

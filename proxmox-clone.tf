@@ -1,8 +1,4 @@
 resource "proxmox_vm_qemu" "clone" {
-  moved {
-    from = proxmox_vm_qemu.vm
-    to   = proxmox_vm_qemu.clone[0]
-  }
   count = var.template_type == "clone" ? 1 : 0
   depends_on = [
     null_resource.set_netbox_vm_status_staged
@@ -47,10 +43,6 @@ resource "proxmox_vm_qemu" "clone" {
 }
 
 resource "null_resource" "set_static_ip" {
-  moved {
-    from = null_resource.set_static_ip
-    to   = null_resource.set_static_ip[0]
-  }
   count = var.template_type == "clone" ? 1 : 0
 
   connection {
