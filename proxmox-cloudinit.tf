@@ -18,7 +18,6 @@ resource "proxmox_vm_qemu" "cloudinit" {
   agent       = 1
   memory      = var.memory
   cores       = var.cores
-  boot        = "order=${var.boot_order}"
   pool        = "critical"
   qemu_os     = var.qemu_os
   cpu         = var.cpu
@@ -31,7 +30,8 @@ resource "proxmox_vm_qemu" "cloudinit" {
   ipconfig0        = "ip=${local.ip_address2},gw=172.29.14.1"
   nameserver       = "172.29.14.7"
   searchdomain     = var.dns_domain
-  automatic_reboot = false
+  automatic_reboot = true
+  ciuser           = data.vault_kv_secret_v2.ansible.data.ssh_user
   sshkeys          = data.vault_kv_secret_v2.ansible.data.public_key
 
   disk {
@@ -51,6 +51,8 @@ resource "proxmox_vm_qemu" "cloudinit" {
   }
 
   lifecycle {
-    ignore_changes = [args, clone, hagroup, target_node, full_clone]
+    ignore_changes = [
+      target_node, # if the VM changes host, don't force it back
+    ]
   }
 }
