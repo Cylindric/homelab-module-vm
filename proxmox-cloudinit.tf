@@ -1,3 +1,8 @@
+data "vault_kv_secret_v2" "ansible" {
+  mount = "kv"
+  name  = "services/ansible"
+}
+
 resource "proxmox_vm_qemu" "cloudinit" {
   count = var.template_type == "cloudinit" ? 1 : 0
   depends_on = [
@@ -23,12 +28,11 @@ resource "proxmox_vm_qemu" "cloudinit" {
 
   # CloudInit
   os_type          = "cloud-init"
-  ciuser           = "packer"
-  cipassword       = "packer"
   ipconfig0        = "ip=${local.ip_address2},gw=172.29.14.1"
   nameserver       = "172.29.14.7"
   searchdomain     = var.dns_domain
-  automatic_reboot = true
+  automatic_reboot = false
+  sshkeys          = data.vault_kv_secret_v2.ansible.data.public_key
 
   disk {
     size    = "${var.disk_size}G"
