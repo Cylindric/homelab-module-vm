@@ -1,8 +1,4 @@
 resource "null_resource" "set_netbox_vm_status_staged" {
-  depends_on = [
-    proxmox_vm_qemu.vm
-  ]
-
   triggers = {
     vm_id = local.netbox_vm_id
   }
