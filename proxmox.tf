@@ -111,7 +111,7 @@ resource "null_resource" "set_netbox_vm_status" {
         -H "Authorization: Token $NETBOX_API_TOKEN" \
         -H "Content-Type: application/json" \
         $NETBOX_SERVER_URL/api/virtualization/virtual-machines/${self.triggers.vm_id}/ \
-        --data '{"status": "decomissioning"}'
+        --data '{"status": "decommissioning"}'
     EOT
   }
 }
