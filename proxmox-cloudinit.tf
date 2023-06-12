@@ -18,7 +18,7 @@ resource "proxmox_vm_qemu" "cloudinit" {
   agent       = 1
   memory      = var.memory
   cores       = var.cores
-  pool        = "critical"
+  pool        = var.pool
   qemu_os     = var.qemu_os
   cpu         = var.cpu
   hastate     = var.ha_state == "" ? null : var.ha_state
@@ -27,8 +27,8 @@ resource "proxmox_vm_qemu" "cloudinit" {
 
   # CloudInit
   os_type          = "cloud-init"
-  ipconfig0        = "ip=${local.ip_address2},gw=172.29.14.1"
-  nameserver       = "172.29.14.7"
+  ipconfig0        = "ip=${local.ip_address},gw=${var.gateway}"
+  nameserver       = var.nameserver
   searchdomain     = var.dns_domain
   automatic_reboot = true
   ciuser           = data.vault_kv_secret_v2.ansible.data.ssh_user
@@ -42,7 +42,7 @@ resource "proxmox_vm_qemu" "cloudinit" {
   }
 
   network {
-    bridge    = "vmbr0"
+    bridge    = var.bridge
     firewall  = false
     link_down = false
     model     = "virtio"

@@ -1,11 +1,6 @@
 ##################
 # COMMON SETTINGS
 ##################
-variable "generate_certificate" {
-  type    = bool
-  default = false
-}
-
 variable "name" {
   description = "The machine name for the new VM"
   type        = string
@@ -24,6 +19,16 @@ variable "comments" {
 variable "interface_name" {
   type    = string
   default = "eth0"
+}
+
+variable "gateway" {
+  type    = string
+  default = "172.29.14.1"
+}
+
+variable "nameserver" {
+  type    = string
+  default = "172.29.14.7"
 }
 
 variable "dns_domain" {
@@ -158,4 +163,14 @@ variable "ha_group" {
   description = "The desired HA group of the VM"
   type        = string
   default     = "any_node"
+}
+
+variable "bridge" {
+  type    = string
+  default = "vmbr0"
+}
+
+variable "pool" {
+  type    = string
+  default = "critical"
 }
