@@ -4,7 +4,7 @@ resource "null_resource" "set_netbox_vm_status_staged" {
   }
 
   provisioner "local-exec" {
-    command    = <<EOT
+    command = <<EOT
       curl \
         -X PATCH \
         -H "Authorization: Token $NETBOX_API_TOKEN" \
@@ -25,7 +25,7 @@ resource "proxmox_vm_qemu" "vm" {
   onboot      = var.onboot
   desc        = var.comments
   target_node = var.target_node
-  clone       = "ubuntu-20.04"
+  clone       = var.template
   agent       = 1
   memory      = var.memory
   cores       = var.cores
@@ -93,7 +93,7 @@ resource "null_resource" "set_netbox_vm_status" {
   }
 
   provisioner "local-exec" {
-    command    = <<EOT
+    command = <<EOT
       curl \
         -X PATCH \
         -H "Authorization: Token $NETBOX_API_TOKEN" \
@@ -104,8 +104,8 @@ resource "null_resource" "set_netbox_vm_status" {
   }
 
   provisioner "local-exec" {
-    when       = destroy
-    command    = <<EOT
+    when    = destroy
+    command = <<EOT
       curl \
         -X PATCH \
         -H "Authorization: Token $NETBOX_API_TOKEN" \
