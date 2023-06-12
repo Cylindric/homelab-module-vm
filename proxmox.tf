@@ -4,7 +4,6 @@ resource "null_resource" "set_netbox_vm_status_staged" {
   }
 
   provisioner "local-exec" {
-    on_failure = continue
     command    = <<EOT
       curl \
         -s \
@@ -95,7 +94,6 @@ resource "null_resource" "set_netbox_vm_status" {
   }
 
   provisioner "local-exec" {
-    on_failure = continue
     command    = <<EOT
       curl \
         -s \
@@ -108,7 +106,6 @@ resource "null_resource" "set_netbox_vm_status" {
   }
 
   provisioner "local-exec" {
-    on_failure = continue
     when       = destroy
     command    = <<EOT
       curl \
