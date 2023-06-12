@@ -14,7 +14,7 @@ resource "proxmox_vm_qemu" "clone" {
   memory      = var.memory
   cores       = var.cores
   boot        = "order=${var.boot_order}"
-  pool        = "critical"
+  pool        = var.pool
   qemu_os     = var.qemu_os
   cpu         = var.cpu
   hastate     = var.ha_state == "" ? null : var.ha_state
@@ -29,7 +29,7 @@ resource "proxmox_vm_qemu" "clone" {
   }
 
   network {
-    bridge    = "vmbr0"
+    bridge    = var.bridge
     firewall  = false
     link_down = false
     model     = "virtio"
@@ -57,12 +57,12 @@ resource "null_resource" "set_static_ip" {
     inline = [
       "echo \"network:\" | sudo tee /etc/netplan/00-installer-config.yaml",
       "echo \"  ethernets:\" | sudo tee -a /etc/netplan/00-installer-config.yaml",
-      "echo \"    ens18:\" | sudo tee -a /etc/netplan/00-installer-config.yaml",
+      "echo \"    ${var.interface_name}:\" | sudo tee -a /etc/netplan/00-installer-config.yaml",
       "echo \"      dhcp4: no\" | sudo tee -a /etc/netplan/00-installer-config.yaml",
-      "echo \"      addresses: [${local.ip_address2}]\" | sudo tee -a /etc/netplan/00-installer-config.yaml",
-      "echo \"      gateway4: 172.29.14.1\" | sudo tee -a /etc/netplan/00-installer-config.yaml",
+      "echo \"      addresses: [${local.ip_address}]\" | sudo tee -a /etc/netplan/00-installer-config.yaml",
+      "echo \"      gateway4: ${var.gateway}\" | sudo tee -a /etc/netplan/00-installer-config.yaml",
       "echo \"      nameservers:\" | sudo tee -a /etc/netplan/00-installer-config.yaml",
-      "echo \"        addresses: [172.29.14.7, 172.29.14.8]\" | sudo tee -a /etc/netplan/00-installer-config.yaml",
+      "echo \"        addresses: [${var.nameserver}]\" | sudo tee -a /etc/netplan/00-installer-config.yaml",
       "sudo apt install -y at",
       "echo \"sleep 5s && sudo netplan apply\" | at now"
     ]
