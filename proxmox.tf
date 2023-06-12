@@ -78,6 +78,7 @@ resource "null_resource" "set_static_ip" {
       "echo \"      gateway4: 172.29.14.1\" | sudo tee -a /etc/netplan/00-installer-config.yaml",
       "echo \"      nameservers:\" | sudo tee -a /etc/netplan/00-installer-config.yaml",
       "echo \"        addresses: [172.29.14.7, 172.29.14.8]\" | sudo tee -a /etc/netplan/00-installer-config.yaml",
+      "sudo apt install -y at",
       "echo \"sleep 5s && sudo netplan apply\" | at now"
     ]
   }
