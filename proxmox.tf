@@ -80,7 +80,7 @@ resource "null_resource" "set_netbox_vm_status" {
         -X PATCH \
         -H \"Authorization: Token $NETBOX_API_TOKEN \" \
         -H \"Content-Type: application/json\" \
-        $NETBOX_SERVER_URL/api/virtualization/virtual-machines/${self.vm_id}/ \
+        $NETBOX_SERVER_URL/api/virtualization/virtual-machines/${self.triggers.vm_id}/ \
         --data '{"status": "active"}
     EOT
   }
@@ -94,7 +94,7 @@ resource "null_resource" "set_netbox_vm_status" {
         -X PATCH \
         -H \"Authorization: Token $NETBOX_API_TOKEN \" \
         -H \"Content-Type: application/json\" \
-        $NETBOX_SERVER_URL/api/virtualization/virtual-machines/${self.vm_id}/ \
+        $NETBOX_SERVER_URL/api/virtualization/virtual-machines/${self.triggers.vm_id}/ \
         --data '{"status": "decomissioning"}
     EOT
   }
