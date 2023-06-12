@@ -1,5 +1,5 @@
 resource "proxmox_vm_qemu" "cloudinit" {
-  count = var.image_type == "cloudinit" ? 1 : 0
+  count = var.template_type == "cloudinit" ? 1 : 0
   depends_on = [
     null_resource.set_netbox_vm_status_staged
   ]
