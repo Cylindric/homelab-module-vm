@@ -6,7 +6,7 @@ data "netbox_cluster" "netbox_cluster" {
 }
 
 data "netbox_virtual_machines" "netbox_vms" {
-  name_regex = var.name
+  name_regex = "^${var.name}$"
   filter {
     name  = "cluster_id"
     value = data.netbox_cluster.netbox_cluster.id
