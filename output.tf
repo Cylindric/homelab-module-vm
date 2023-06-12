@@ -5,5 +5,5 @@ output "netbox_vm" {
 
 output "proxmox_vm" {
   description = "The VM details created on Proxmox"
-  value       = proxmox_vm_qemu.vm
+  value       = var.template_type == "cloudinit" ? proxmox_vm_qemu.cloudinit : proxmox_vm_qemu.clone
 }

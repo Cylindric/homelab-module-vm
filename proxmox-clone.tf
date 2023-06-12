@@ -1,7 +1,7 @@
 resource "proxmox_vm_qemu" "clone" {
   moved {
     from = proxmox_vm_qemu.vm
-    to   = proxmox_vm_qemu.clone
+    to   = proxmox_vm_qemu.clone[0]
   }
   count = var.template_type == "clone" ? 1 : 0
   depends_on = [
@@ -47,13 +47,17 @@ resource "proxmox_vm_qemu" "clone" {
 }
 
 resource "null_resource" "set_static_ip" {
+  moved {
+    from = null_resource.set_static_ip
+    to   = null_resource.set_static_ip[0]
+  }
   count = var.template_type == "clone" ? 1 : 0
 
   connection {
     type     = "ssh"
     user     = "packer"
     password = "packer"
-    host     = proxmox_vm_qemu.vm[count.index].ssh_host
+    host     = proxmox_vm_qemu.clone[count.index].ssh_host
   }
 
   provisioner "remote-exec" {
