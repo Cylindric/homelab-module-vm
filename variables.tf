@@ -56,7 +56,16 @@ variable "netbox_cluster" {
 variable "template" {
   description = "The name of the template to clone"
   type        = string
-  default     = "ubuntu-22.04.2-1"
+  default     = "ubuntu-22.04-1"
+}
+
+variable "template_type" {
+  description = "The type of template, i.e. cloudinit, clone"
+  default     = "cloudimg"
+  validation {
+    condition     = contains(["cloudinit", "clone"], var.template_type)
+    error_message = "Image Type must be a valid type (cloudinit or clone)."
+  }
 }
 
 variable "memory" {
