@@ -33,7 +33,7 @@ variable "dns_domain" {
 
 variable "storage" {
   type    = string
-  default = "ceph_vms"
+  default = "shared_vms"
 }
 
 variable "cname" {
