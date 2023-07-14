@@ -28,7 +28,7 @@ variable "gateway" {
 
 variable "nameserver" {
   type    = string
-  default = "172.29.14.7"
+  default = "172.29.14.19"
 }
 
 variable "dns_domain" {
