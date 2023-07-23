@@ -126,7 +126,7 @@ variable "qemu_os" {
 
 variable "onboot" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "disk_size" {
@@ -147,6 +147,11 @@ variable "scsihw" {
 variable "disk_type" {
   type    = string
   default = "scsi"
+}
+
+variable "disk_aio" {
+  type    = string
+  default = null
 }
 
 variable "ha_state" {

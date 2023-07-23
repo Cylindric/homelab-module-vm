@@ -39,6 +39,7 @@ resource "proxmox_vm_qemu" "cloudinit" {
     storage = var.storage
     type    = var.disk_type
     discard = "on"
+    aio     = var.aio
   }
 
   network {
