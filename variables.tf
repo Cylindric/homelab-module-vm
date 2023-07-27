@@ -179,3 +179,8 @@ variable "pool" {
   type    = string
   default = "critical"
 }
+
+variable "automatic_reboot" {
+  type    = bool
+  default = true
+}

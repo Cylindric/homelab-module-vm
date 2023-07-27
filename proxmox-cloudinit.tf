@@ -8,31 +8,31 @@ resource "proxmox_vm_qemu" "cloudinit" {
   depends_on = [
     null_resource.set_netbox_vm_status_staged
   ]
-  name        = var.name
-  bios        = var.bios
-  balloon     = local.balloon
-  onboot      = var.onboot
-  desc        = var.comments
-  target_node = var.target_node
-  clone       = var.template
-  agent       = 1
-  memory      = var.memory
-  cores       = var.cores
-  pool        = var.pool
-  qemu_os     = var.qemu_os
-  cpu         = var.cpu
-  hastate     = var.ha_state == "" ? null : var.ha_state
-  hagroup     = var.ha_state == "" ? null : var.ha_group
-  scsihw      = var.scsihw
+  name             = var.name
+  bios             = var.bios
+  balloon          = local.balloon
+  onboot           = var.onboot
+  desc             = var.comments
+  target_node      = var.target_node
+  clone            = var.template
+  agent            = 1
+  memory           = var.memory
+  cores            = var.cores
+  pool             = var.pool
+  qemu_os          = var.qemu_os
+  cpu              = var.cpu
+  hastate          = var.ha_state == "" ? null : var.ha_state
+  hagroup          = var.ha_state == "" ? null : var.ha_group
+  scsihw           = var.scsihw
+  automatic_reboot = var.automatic_reboot
 
   # CloudInit
-  os_type          = "cloud-init"
-  ipconfig0        = "ip=${local.ip_address},gw=${var.gateway}"
-  nameserver       = var.nameserver
-  searchdomain     = var.dns_domain
-  automatic_reboot = true
-  ciuser           = data.vault_kv_secret_v2.ansible.data.ssh_user
-  sshkeys          = data.vault_kv_secret_v2.ansible.data.public_key
+  os_type      = "cloud-init"
+  ipconfig0    = "ip=${local.ip_address},gw=${var.gateway}"
+  nameserver   = var.nameserver
+  searchdomain = var.dns_domain
+  ciuser       = data.vault_kv_secret_v2.ansible.data.ssh_user
+  sshkeys      = data.vault_kv_secret_v2.ansible.data.public_key
 
   disk {
     size    = "${var.disk_size}G"
