@@ -21,11 +21,16 @@ resource "proxmox_vm_qemu" "clone" {
   hagroup     = var.ha_state == "" ? null : var.ha_group
   scsihw      = var.scsihw
 
-  disk {
-    size    = "${var.disk_size}G"
-    storage = var.storage
-    type    = var.disk_type
-    discard = "on"
+  disks {
+    scsi {
+      scsi0 {
+        disk {
+          size    = "${var.disk_size}G"
+          storage = var.storage
+          discard = true
+        }
+      }
+    }
   }
 
   network {
