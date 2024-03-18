@@ -25,7 +25,7 @@ resource "proxmox_vm_qemu" "clone" {
     scsi {
       scsi0 {
         disk {
-          size    = "${var.disk_size}G"
+          size    = "${var.disk_size}"
           storage = var.storage
           discard = true
         }
