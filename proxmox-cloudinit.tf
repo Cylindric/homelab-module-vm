@@ -34,12 +34,24 @@ resource "proxmox_vm_qemu" "cloudinit" {
   ciuser       = data.vault_kv_secret_v2.ansible.data.ssh_user
   sshkeys      = data.vault_kv_secret_v2.ansible.data.public_key
 
-  disk {
-    size    = "${var.disk_size}G"
-    storage = var.storage
-    type    = var.disk_type
-    discard = "on"
-    aio     = var.disk_aio
+  disks {
+    ide {
+      ide2 {
+        cloudinit {
+          storage = var.storage
+        }
+      }
+    }
+    scsi {
+      scsi0 {
+        disk {
+          size    = "${var.disk_size}G"
+          storage = var.storage
+          discard = true
+          replicate = true
+        }
+      }
+    }
   }
 
   network {

@@ -61,7 +61,7 @@ variable "netbox_cluster" {
 variable "template" {
   description = "The name of the template to clone"
   type        = string
-  default     = "ubuntu-22.04-1"
+  default     = "ubuntu-22.04-2"
 }
 
 variable "template_type" {

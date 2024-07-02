@@ -15,7 +15,7 @@ terraform {
     # https://registry.terraform.io/providers/Telmate/proxmox/latest
     proxmox = {
       source  = "Telmate/proxmox"
-      version = ">= 2.9.13"
+      version = "3.0.1-rc3"
     }
 
     # https://registry.terraform.io/providers/hashicorp/vault/latest
